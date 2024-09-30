@@ -12,34 +12,9 @@ export const metadata: Metadata = siteData("导航 | cater");
 const links = [
   {
     title: "ChatGPT",
-    url: "https://lobe.851158.xyz",
+    url: "https://chat.851158.xyz",
     icon: "",
   },
-  // {
-  //   title: "mggg's Blog",
-  //   url: "https://mggg.cloud",
-  //   icon: "",
-  // },
-  // {
-  //   title: "伴夜",
-  //   url: "https://www.aitimi.cn",
-  //   icon: "https://www.aitimi.cn/favicon.ico",
-  // },
-  // {
-  //   title: "royalknight",
-  //   url: "https://blog.myim.online/blog/index.html",
-  //   icon: "https://blog.myim.online/lib/media/favicon.png",
-  // },
-  // {
-  //   title: "Blackcell",
-  //   url: "https://next.blackcell.fun/",
-  //   icon: "/friends/blackcell.ico",
-  // },
-  // {
-  //   title: "lezhi blog",
-  //   url: "https://zlzzlzlz.github.io",
-  //   icon: "",
-  // },
 ];
 
 export default function Example() {
