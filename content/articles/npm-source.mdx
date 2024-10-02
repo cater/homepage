@@ -1,0 +1,85 @@
+---
+title: 国内npm源镜像（npm加速下载）
+description: npm,国内加速
+date: "2024-10-2"
+published: true
+repository: fjyw7799/homepage
+---
+
+推荐使用上面的方式指定npm镜像，当然方法不唯一，也可以用 nrm 去指定npm镜像
+==========================================
+
+国内npm源镜像（npm加速下载）
+-------------------------------------------------------------------------------------
+
+### 指定npm镜像
+
+> npm 官方原始镜像网址是：https://registry.npmjs.org/  
+> **淘宝** NPM 镜像：[http](https://so.csdn.net/so/search?q=http&spm=1001.2101.3001.7020)://registry.npmmirror.com  
+> **阿里云** NPM 镜像：https://npm.aliyun.com  
+> **腾讯云** NPM 镜像：https://mirrors.cloud.tencent.com/npm/  
+> **华为云** NPM 镜像：https://mirrors.huaweicloud.com/repository/npm/  
+> 网易 NPM 镜像：https://mirrors.163.com/npm/  
+> 中国科学技术大学开源镜像站：http://mirrors.ustc.edu.cn/  
+> [清华大学开源镜像站](https://so.csdn.net/so/search?q=%E6%B8%85%E5%8D%8E%E5%A4%A7%E5%AD%A6%E5%BC%80%E6%BA%90%E9%95%9C%E5%83%8F%E7%AB%99&spm=1001.2101.3001.7020)：https://mirrors.tuna.tsinghua.edu.cn/  
+> **腾讯，华为，阿里的镜像站基本上比较全**
+
+使用**淘宝**镜像源加速 NPM
+
+最新的：
+
+     npm config set registry https://registry.npmmirror.com
+
+
+之前的:
+
+     npm config set registry https://registry.npm.taobao.org
+
+
+使用**阿里云** 镜像源加速 NPM
+
+    npm config set registry https://npm.aliyun.com
+
+
+使用**腾讯云**镜像源加速 NPM
+
+    npm config set registry http://mirrors.cloud.tencent.com/npm/
+
+
+使用**华为云** 镜像源加速 NPM
+
+    npm config set registry https://mirrors.huaweicloud.com/repository/npm/
+
+
+
+返回**npm 官方原始镜像**
+
+    npm config set registry https://registry.npmjs.org/
+
+ **使用那个镜像，只需要 npm config set registry + 对应的镜像网址就好了**
+
+    npm config set registry 
+**查看当前的镜像源**：npm config get registry
+
+    npm config get registry
+
+
+### 推荐使用上面的方式指定npm镜像，当然方法不唯一，也可以用 nrm 去指定npm镜像
+
+什么是nrm
+-----------
+
+nrm 是一个 npm 源管理器，允许你快速地在 npm 源间切换。
+
+安装nrm
+----------
+    npm install -g nrm
+使用
+-------
+### 查看可选的源
+    nrm ls    
+### 切换
+如果要切换到taobao源，执行命令
+    nrm use taobao
+### 测试速度
+    nrm test     
