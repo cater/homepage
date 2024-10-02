@@ -1,0 +1,767 @@
+---
+title: 使用 Contentlayer 和 Next 构建基于 MDX 的博客
+description: Next.js, Tailwind CSS, Upstash, Contentlayer, Vercel
+date: "2024-10-2"
+published: true
+repository: fjyw7799/homepage
+---
+
+使用 Contentlayer 和 Next 构建基于 MDX 的博客
+===================================
+
+
+在本文中,我们将在本教程中学习如何使用Next.js和Contentlayer创建静态MDX博客站点。在考虑如何将它们组合以生成静态应用程序之前,我们将讨论这些技术和相关概念,并且我们将展示我们博客的完整代码。
+
+在开始本教程之前,您需要以下内容:
+
+* React和Next.js的工作知识。
+
+* 熟悉Markdown和Tailwind CSS
+
+* 文本编辑器------例如**VSCode**。
+
+* Node.js已安装;我将使用 **v16.15.1**
+
+如果您立即需要该项目的完整源代码,您可以从 GitHub\](https://github.com/wisdomekpotu/mdx-nextjs-contentlayer)\[下载。另外,您可以在线查看已完成的项目。
+
+什么是MDX?
+-------
+
+作为开发人员,您一定遇到过降价文件。一个著名的例子是我们在Github上使用的自述文件文件来记录我们的代码。 *MDX* 是支持 JSX 元素的 Markdown 扩展。
+
+根据官方网站:
+> MDX 允许您在降价内容中使用 JSX。您可以导入组件,例如交互式图表或警报,并将它们嵌入到您的内容中。这使得使用组件编写长篇内容变得非常有趣。
+
+它也被称为"组件时代的 Markdown"。从本质上讲,它融合了 Markdown 的可读性和 JSX 的交互性,以提供两全其美的效果,从而帮助您将页面变为现实。
+
+MDX 还支持非 Markdown 标准功能,包括代码语法高亮、Github Flovoured Markdown(GFM)等。
+
+将 MDX 与 Next.js 一起使用
+--------------------
+
+到目前为止,已经有四种流行的方式将 MDX 与 Next.js 结合使用:
+
+* Kent C. Dodds 的 mdx 捆绑器。
+
+* next-mdx-remote,此工具由Hashicorp团队创建。
+
+* next-mdx-enhanced,仍然由 Hashicorp 提供。
+
+最后,Next.js 团队推荐和开发的官方方法是使用@mdx-js/loader和@next/mdx将 MDX 文件转换为页面。
+
+这些方法是合适的,但它们将 MDX 文件视为页面。
+
+现在,如果我告诉你有一种新的简单方法可以让我们将这些 MDX 文件视为数据并根据它们生成页面,很酷吧?
+
+使用这种方式,我可以同时使用 MDX 文件作为数据点和页面内容。发布新内容肯定会变得更加顺畅。
+
+这就是 Contentlayer 的用武之地。
+
+Contentlayer介绍
+--------------
+
+Contentlayer是一个内容 SDK,它可以验证您的内容并将其转换为类型安全的 JSON 数据,您可以轻松地将其导入应用程序。
+
+\[![](https://cubox.pro/c/filters:no_upscale()?imageUrl=https%3A%2F%2Fres.cloudinary.com%2Fpracticaldev%2Fimage%2Ffetch%2Fs--tUS1C0Ya--%2Fc_limit%252Cf_auto%252Cfl_progressive%252Cq_auto%252Cw_880%2Fhttps%3A%2F%2Fblog.openreplay.com%2Fstatic%2Fdbf3ec39fc17ff4db0e0d5a157e6ddb9%2F536f2%2Fimage01.png&valid=true)\](https://res.cloudinary.com/practicaldev/image/fetch/s--tUS1C0Ya--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://blog.openreplay.com /static/dbf3ec39fc17ff4db0e0d5a157e6ddb9/536f2/image01.png)
+
+它是一种内容处理机制,可将内容转换为您的页面和组件可以轻松使用的数据。简单来说,就是一个将内容转化为数据的库。
+
+Contentlayer 通过以下三个简单步骤工作:
+
+1. **配置您的内容源**:此内容源的范围可以是 YAML、JSON、MDX 或 Markdown。
+
+2. **您的内容被转换为数据**:内容被转换为包含实际内容、元数据等的 JSON 数据,可以导入。
+
+3. **将数据导入您的应用程序**:您可以像导入任何其他 JavaScript 库一样导入数据。使用它来渲染页面,并将它们作为道具传递给这些页面上的组件。
+
+\[![](https://cubox.pro/c/filters:no_upscale()?imageUrl=https%3A%2F%2Fres.cloudinary.com%2Fpracticaldev%2Fimage%2Ffetch%2Fs--mQxi0q0n--%2Fc_limit%252Cf_auto%252Cfl_progressive%252Cq_auto%252Cw_880%2Fhttps%3A%2F%2Fblog.openreplay.com%2Fstatic%2F39b965a6bb7dfa0d823873593e8e43aa%2F6e32e%2Fimage02.png&valid=true)\](https://res.cloudinary.com/practicaldev/image/fetch/s--mQxi0q0n--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://blog.openreplay.com /static/39b965a6bb7dfa0d823873593e8e43aa/6e32e/image02.png)
+
+在编写本教程时,Contentlayer 仍处于 **beta** 中,因此可能会更改解决方案。您可以查看文档了解更多信息并开始使用。
+
+您可能喜欢 Contentlayer 的一些原因包括:
+
+* 轻松将您的内容作为数据导入页面。
+
+* 自动验证您的内容及其主要内容。
+
+* 支持即时内容实时重新加载。
+
+* 使用 JS/TS --- 学习新的查询语言并不陌生。
+
+* 具有自动生成的类型定义的强类型数据。
+
+* 内置和可配置的内容验证
+
+* 提供详细的错误信息,方便调试。
+
+* 快速构建和页面性能。
+
+建博客
+---
+
+我们将使用 Next.js 和 MDX 构建一个博客,同时使用 Contentlayer 将我们的内容作为数据提供服务。在本教程结束时,您应该有一个 Next.js 博客,如下所示:
+
+\[![](https://cubox.pro/c/filters:no_upscale()?imageUrl=https%3A%2F%2Fres.cloudinary.com%2Fpracticaldev%2Fimage%2Ffetch%2Fs--o-Mmrd40--%2Fc_limit%252Cf_auto%252Cfl_progressive%252Cq_66%252Cw_880%2Fhttps%3A%2F%2Fblog.openreplay.com%2Fdfdf5b0e3ea9edf9c9b585e855ef1e8a%2Fimage03.gif&valid=true)\](https://res.cloudinary.com/practicaldev/image/fetch/s--o-Mmrd40--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_66%2Cw_880/https://blog.openreplay .com/dfdf5b0e3ea9edf9c9b585e855ef1e8a/image03.gif)
+
+说了这么多,如果你准备好了,让我们开始吧。运行以下代码以创建默认 Next.js 应用程序。
+
+```
+npx create-next-app@latest
+```
+
+进入全屏模式 退出全屏模式
+
+我使用mdx-contentlayer-blog作为项目名称。然后导航到项目目录。
+
+```
+cd  mdx-contentlayer-blog 
+```
+
+进入全屏模式 退出全屏模式
+
+首先,我们将测试以确保应用程序正常工作。我们将在本教程中使用纱线。但是,如果您愿意,您可以轻松使用NPM。运行以下代码:
+
+```
+yarn dev
+```
+
+进入全屏模式 退出全屏模式
+
+您应该可以在http://localhost:3000上看到我们的应用程序。
+
+\[![](https://cubox.pro/c/filters:no_upscale()?imageUrl=https%3A%2F%2Fres.cloudinary.com%2Fpracticaldev%2Fimage%2Ffetch%2Fs--ZA1Q7ygn--%2Fc_limit%252Cf_auto%252Cfl_progressive%252Cq_auto%252Cw_880%2Fhttps%3A%2F%2Fblog.openreplay.com%2Fstatic%2F198b702591a6ddda08df40619c3dc2a8%2Fa29f5%2Fimage04.png&valid=true)\](https://res.cloudinary.com/practicaldev/image/fetch/s--ZA1Q7ygn--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://blog.openreplay.com /static/198b702591a6ddda08df40619c3dc2a8/a29f5/image04.png)
+
+在继续本教程之前,让我们使用Tailwind CSS为我们的项目快速设置样式。运行以下命令安装 Tailwind:
+
+```
+yarn add -D tailwindcss postcss autoprefixer
+```
+
+进入全屏模式 退出全屏模式
+
+安装完成后,运行下面的init命令,生成`tailwind.config.js`和`postcss.config.js`。
+
+```
+npx tailwindcss init -p
+```
+
+进入全屏模式 退出全屏模式
+
+现在在您的`tailwind.config.js`文件中,添加以下内容:
+
+```
+// tailwind.config.js
+module.exports = {
+  content: [
+    "./pages/**/*.{js,ts,jsx,tsx}",
+    "./components/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+```
+
+进入全屏模式 退出全屏模式
+
+接下来,删除`Home.`module`.css`文件,同时在`styles/globals.css`文件中将其替换为以下代码:
+
+```
+/* globals.css */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+进入全屏模式 退出全屏模式
+
+最后,我们需要安装@tailwindcss`/typography`以将 Tailwind 样式应用于我们的 Markdown(MDX) 文件。
+
+```
+yarn add @tailwindcss/typography
+```
+
+进入全屏模式 退出全屏模式
+
+然后我们需要将它作为插件添加到我们的 Tailwind 配置中。转到`tailwind.config.js`并添加以下代码。
+
+```
+ plugins: [
+    require('@tailwindcss/typography'),
+  ],
+```
+
+进入全屏模式 退出全屏模式
+
+此时,我们应该准备好 Tailwind CSS 并在我们的应用程序中工作。
+
+现在让我们继续设置 Contentlayer。
+
+设置 Contentlayer SDK 配置
+----------------------
+
+### 安装 Contentlayer
+
+要安装 Contentlayer,我们必须同时安装 Contentlayer 及其 Next.js 插件。
+
+运行下面的代码。
+
+```
+yarn add contentlayer next-contentlayer
+```
+
+进入全屏模式 退出全屏模式
+
+接下来,我们必须将 Contentlayer 连接到 Next.js 的两个构建过程中:next` `dev和next` build`。
+
+为此,我们必须将 Next.js 配置包装在withContentlayer方法中。
+
+导航到next`.`config`.js`并添加以下代码。
+
+```
+//next.config.js
+const { withContentlayer } = require('next-contentlayer');
+
+const nextConfig = {
+  reactStrictMode: true,
+}
+
+module.exports = withContentlayer(nextConfig)
+```
+
+进入全屏模式 退出全屏模式
+
+现在创建一个文件`jsconfig.json`并添加以下行:
+
+```
+//jsconfig.json
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "contentlayer/generated": ["./.contentlayer/generated"]
+      // ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    }
+  },
+  "include": [".contentlayer/generated"]
+  //          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+}
+```
+
+进入全屏模式 退出全屏模式
+
+我们在上面的代码中定义了baseUrl来简化文件导入。然后我们指定Contentlayer处理后生成文件的路径:.contentlayer/generated目录。这将为生成的文件目录创建一个别名`contentlayer/generated`。
+
+开源会话重播
+------
+
+*OpenReplay是一个开源的会话重播套件,可让您查看用户在您的 Web 应用程序上的操作,帮助您更快地解决问题。 OpenReplay 是自托管的,可以完全控制您的数据。*
+
+\[![](https://cubox.pro/c/filters:no_upscale()?imageUrl=https%3A%2F%2Fres.cloudinary.com%2Fpracticaldev%2Fimage%2Ffetch%2Fs--cO1f9e_o--%2Fc_limit%252Cf_auto%252Cfl_progressive%252Cq_auto%252Cw_880%2Fhttps%3A%2F%2Fstatic.openreplay.com%2Fimages%2Fbanner-blog.png&valid=true)\](https://res.cloudinary.com/practicaldev/image/fetch/s--cO1f9e_o--/c_limit%2Cf_auto%2Cfl_progressive%2Cq_auto%2Cw_880/https://static.openreplay .com/images/banner-blog.png)
+
+*开始享受您的调试体验 -免费开始使用 OpenReplay.*
+
+创建文章架构
+------
+
+在我们定义文档类型之前,安装一个名为`reading-`time的包。
+
+```
+yarn add reading-time
+```
+
+进入全屏模式 退出全屏模式
+
+完成后:
+
+* 转到项目的根目录。
+
+* 创建一个名为`contentlayer.config.js`的新文件。
+
+* 在下面添加以下内容。
+
+```
+//contentlayer.config.js
+
+import { defineDocumentType, defineNestedType, makeSource } from 'contentlayer/source-files'
+import readingTime from 'reading-time';
+
+const Author = defineNestedType(() => ({
+  name: 'Author',
+  fields: {
+    name: { type: 'string', required: true },
+    image: { type: 'string', required: true },
+  },
+}));
+
+const Article = defineDocumentType(() => ({
+  name: 'Article',
+  filePathPattern: 'articles/*.mdx',
+  contentType: 'mdx',
+  fields: {
+    title: { type: 'string', required: true },
+    publishedAt: { type: 'string', required: true },
+    description: { type: 'string', required: true },
+    seoDescription: { type: 'string', required: true },
+    category: { type: 'string', required: true },
+    author: {
+      type: 'nested',
+      of: Author,
+    },
+    image: { type: 'string', required: true },
+  },
+  computedFields,
+}));
+
+export default contentLayerConfig;
+```
+
+进入全屏模式 退出全屏模式
+
+上面的代码将内容的类型定义为 MDX。然后我们为作者定义了defineNestedType,因为它有多个字段。此外,我们需要定义我们的内容 Frontmatter 将拥有的字段。
+
+我们将添加计算字段:必须根据我们提供的内容派生的字段。一些例子:
+
+* wordCount- 从内容的长度。
+
+* readingtime- 我们是通过安装`reading-`time得出的。
+
+* slug- 派生自 MDX 文件名,删除了.mdx扩展名。
+
+在`contentlayer.config.js`文件中,添加以下代码。
+
+```
+const computedFields = {
+  readingTime: { type: 'json', resolve: (doc) => readingTime(doc.body.raw) },
+  wordCount: {
+    type: 'number',
+    resolve: (doc) => doc.body.raw.split(/\s+/gu).length,
+  },
+  slug: {
+    type: 'string',
+    resolve: (doc) => doc._raw.sourceFileName.replace(/\.mdx$/, ''),
+  },
+};
+
+```
+
+进入全屏模式 退出全屏模式
+
+接下来,我们使用 Contentlayer 中的makeSource方法添加内容目录路径。
+
+```
+const contentLayerConfig = makeSource({
+  contentDirPath: 'data',
+  documentTypes: [Article],
+});
+```
+
+进入全屏模式 退出全屏模式
+
+在 MDX 中添加新的博客文章
+---------------
+
+创建内容 (MDX) 文件所在的数据/文章文件夹。然后添加 MDX 文件。您可以在data/articles/first-article.mdx看到一个示例。
+
+您可以在上面的 MDX 文档中看到由---分隔的 Frontmatter。请注意,我对作者图像和内容图像都使用了外部图像链接;因此我必须在 Next.js 配置文件中声明这些图像的域 URL。回到next`.`config`.js`文件并更新。
+
+```
+const { withContentlayer } = require('next-contentlayer');
+
+const nextConfig = {
+  reactStrictMode: true,
+  images: {
+    domains: ['images.unsplash.com', 'media-exp1.licdn.com'],
+    dangerouslyAllowSVG: true,
+  }
+}
+
+module.exports = withContentlayer(nextConfig)
+```
+
+进入全屏模式 退出全屏模式
+
+搭建主页
+----
+
+Contentlayer 为我们提供了很多可以导入到页面中的数据,但是我们应该注意有一些不必要的数据我们不会使用,因此我们需要找到一种方法来准确选择我们想要在组件中显示的内容。因此,让我们创建一个名为select的实用程序类,它可以做到这一点。
+
+创建一个文件`utils/`select`.js`并添加以下代码。
+
+```
+export const select = (obj, keys) => {
+  return keys.reduce((acc, key) => {
+    acc[key] = obj[key];
+    return acc;
+  }, {});
+};
+```
+
+进入全屏模式 退出全屏模式
+
+现在转到Index`.js`并将其替换为下面的代码。
+
+```
+import Head from 'next/head'
+import ArticleCard from '../components/ArticleCard'
+import { allArticles } from 'contentlayer/generated';
+import { select } from '../utils/select';
+
+export default function Home({articles}) {
+  return (
+    <div>
+      <Head>
+        <title>Create Next App</title>
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
+     <main>
+     {articles.map(
+            ({
+              title,
+              description,
+              slug,
+              image,
+              category,
+              publishedAt,
+              readingTime,
+            }) => (
+              <ArticleCard
+                key={slug}
+                title={title}
+                description={description}
+                slug={slug}
+                image={image}
+                category={category}
+                dateTime={publishedAt}
+                date={publishedAt}
+                readingTime={readingTime.text}
+              />
+            )
+          )}
+
+      </main>
+    </div>
+  )
+}
+
+export function getStaticProps() {
+  const articles = allArticles
+    .map((article) =>
+      select(article, [
+        'slug',
+        'title',
+        'description',
+        'publishedAt',
+        'readingTime',
+        'author',
+        'category',
+        'image',
+      ])
+    )
+    .sort(
+      (a, b) =>
+        Number(new Date(b.publishedAt)) - Number(new Date(a.publishedAt))
+    );
+
+  return { props: { articles } };
+}
+```
+
+进入全屏模式 退出全屏模式
+
+我们可以使用来自 contentlayer/generated 的allArticles数据。我们使用allArticles将文章按时间倒序排序,然后将它们作为道具发送到ArticleCard组件。文章已排序,将首先显示最新发表的文章。
+
+创建文章卡
+-----
+
+创建组件components`/ArticleCard.jsx`并使用以下代码填充。
+
+```
+import React from 'react';
+import Image from 'next/image';
+
+export default function ArticleCard({
+  title,
+  description,
+  slug,
+  image,
+  category,
+  dateTime,
+  readingTime,
+}) {
+  return (
+    <div>
+      <section className='text-gray-600 body-font'>
+        <div className='container px-5 py-24 mx-auto'>
+          <div className='flex flex-wrap -m-4'>
+            <div className='p-4 md:w-1/3'>
+              <div className='h-full border-2 border-gray-200 border-opacity-60 rounded-lg overflow-hidden'>
+                <Image
+                  className='lg:h-48 md:h-36 w-full object-cover object-center'
+                  src={image}
+                  width={720}
+                  height={400}
+                  alt='blog'
+                />
+                <div className='p-6'>
+                  <h2 className='tracking-widest text-xs title-font font-medium text-gray-400 mb-1'>
+                    {category}
+                  </h2>
+                  <h1 className='title-font text-lg font-medium text-gray-900 mb-3'>
+                    {title}
+                  </h1>
+                  <p className='leading-relaxed mb-3'>{description}</p>
+                  <div className='flex items-center flex-wrap '>
+                    <a
+                      href={`/article/${slug}`}
+                      className='text-indigo-500 inline-flex items-center md:mb-2 lg:mb-0'
+                    >
+                      Read More
+                      <svg
+                        className='w-4 h-4 ml-2'
+                        viewBox='0 0 24 24'
+                        stroke='currentColor'
+                        strokeWidth='2'
+                        fill='none'
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                      >
+                        <path d='M5 12h14'></path>
+                        <path d='M12 5l7 7-7 7'></path>
+                      </svg>
+                    </a>
+                    <span className='text-gray-400 mr-3 inline-flex items-center lg:ml-auto md:ml-0 ml-auto leading-none text-sm pr-3 py-1 border-r-2 border-gray-200'>
+                      {readingTime}
+                    </span>
+                    <span className='text-gray-400 inline-flex items-center leading-none text-sm'>
+                      <svg
+                        className='w-4 h-4 mr-1'
+                        stroke='currentColor'
+                        strokeWidth='2'
+                        fill='none'
+                        strokeLinecap='round'
+                        strokeinejoin='round'
+                        viewBox='0 0 24 24'
+                      >
+                        <path d='M21 11.5a8.38 8.38 0 01-.9 3.8 8.5 8.5 0 01-7.6 4.7 8.38 8.38 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z'></path>
+                      </svg>
+                      {dateTime}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+```
+
+进入全屏模式 退出全屏模式
+
+您可以看到我们正在通过数据进行映射并在组件中显示它。
+
+然而,这些数据是从下面的主页传下来的。
+
+为文章\[slug\]创建动态路由
+-----------------
+
+如果您注意到,我们无法查看单个文章,这是因为我们没有为它们设置动态路由。
+
+在我们这样做之前,让我们创建SingleArticle组件,它将包含各个内容并显示 MDX 内容。
+
+```
+import Image from 'next/image';
+
+export const SingleArticle = ({ author, image, category, title, children }) => {
+  return (
+    <div className='px-4 py-24'>
+      <div className='mx-auto max-w-prose'>
+        <p className='block text-center text-base font-semibold uppercase tracking-wide text-indigo-600'>
+          {category}
+        </p>
+        <h1 className='mt-2 block text-center text-3xl font-extrabold leading-8 tracking-tight text-gray-900 sm:text-4xl'>
+          {title}
+        </h1>
+        <br />
+        <Image
+          className='lg:h-48 md:h-36 w-full object-cover object-center'
+          src={image}
+          width={720}
+          height={400}
+          alt='blog'
+        />
+        <hr />
+        <br />
+        <div className='flex items-center'>
+          <Image src={author.image} width={50} height={50} alt='blog' />
+
+          <div>
+            <strong>{author.name}</strong>
+            <br />
+            <span>Technical advisor</span>
+          </div>
+        </div>
+        <article className='mx-autotext-gray-500 prose-md prose prose-indigo py-24 lg:prose-lg'>
+          {children}
+        </article>
+      </div>
+    </div>
+  );
+};
+```
+
+进入全屏模式 退出全屏模式
+
+之后,在`pages/`article`/`[slug].js创建动态路由/页面并添加以下代码。
+
+```
+import { allArticles } from 'contentlayer/generated';
+import { NextSeo } from 'next-seo';
+import { SingleArticle } from '../../components/SingleArticle';
+
+
+const SinglePost = ({ article }) => {
+  console.log(article);
+
+  return (
+    <>
+      <NextSeo title={article.title} description={article.seoDescription} />
+
+      <SingleArticle
+        image={article.image}
+        title={article.title}
+        category={article.category}
+        author={article.author}
+      >
+
+      </SingleArticle>
+    </>
+  );
+};
+
+export default SinglePost;
+
+export async function getStaticPaths() {
+  return {
+    paths: allArticles.map((article) => ({
+      params: { slug: article.slug },
+    })),
+    fallback: false,
+  };
+}
+
+export async function getStaticProps({ params }) {
+  const article = allArticles.find((article) => article.slug === params.slug);
+
+  return { props: { article } };
+}
+```
+
+进入全屏模式 退出全屏模式
+
+在上面的代码中,我们导入了allArticles;然后,我们查看每个 slug 以将其与其对应的资源匹配,并将其作为道具传递到我们的页面上。如果你经常使用 Next.js,你应该熟悉next`-seo`包。我们使用它来动态传递我们页面的元信息。快速将其导入项目。
+
+```
+yarn add next-seo
+```
+
+进入全屏模式 退出全屏模式
+
+导入JSX组件
+-------
+
+创建一个名为SampleComponent的组件。这将只是一个简单的按钮组件。
+
+```
+import React from 'react';
+
+export default function SampleComponent() {
+  return (
+    <div>
+      <h6> here is an imported Button Component in MDX</h6>
+      <button className='bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded'>
+        Button
+      </button>
+    </div>
+  );
+}
+```
+
+进入全屏模式 退出全屏模式
+
+现在仍然是`pages/`article`/`[slug].js。添加下面的代码。
+
+```
+import SampleComponent from '../../components/SampleComponent';
+```
+
+进入全屏模式 退出全屏模式
+
+然后从 Contentlayer 导入MDxComponent方法,使我们能够使用 MDX 组件。
+
+```
+import { useMDXComponent } from 'next-contentlayer/hooks';
+```
+
+进入全屏模式 退出全屏模式
+
+之后,我们在Singlepost函数之外声明我们要使用的组件。
+
+```
+const usedcomponents = {
+  SampleComponent,
+};
+```
+
+进入全屏模式 退出全屏模式
+
+然后我们访问article的主体,并将一个名为MDXcontent的自定义组件传递到SingleArticle页面。
+
+```
+const SinglePost = ({ article }) => {
+
+  const MDXContent = useMDXComponent(article.body.code);
+
+  return (
+    <>
+      <NextSeo title={article.title} description={article.seoDescription} />
+
+      <SingleArticle
+        image={article.image}
+        title={article.title}
+        category={article.category}
+        author={article.author}
+      >
+        <MDXContent components={usedcomponents} />
+      </SingleArticle>
+    </>
+  );
+};
+```
+
+进入全屏模式 退出全屏模式
+
+现在我们完成了。您可以继续在 MDX 文件中包含 jsx 元素。重新启动服务器,它应该一切正常。
+
+结论
+---
+
+终于,我们来到了本教程的结尾!在这篇博文中,我们学习了如何使用 Next.js 和 MDX 使用 Contentlayer 正确设置静态站点。
+
+资源
+---
+
+* MDX 官方文档
+
+Nextjs 文档中的\* MDX
+
+* 内容层文档
+
+* Github 回购
+
+![](https://cubox.pro/c/filters:no_upscale()?imageUrl=https%3A%2F%2Fres.cloudinary.com%2Fpracticaldev%2Fimage%2Ffetch%2Fs--Pm3jjyql--%2Fc_limit%252Cf_auto%252Cfl_progressive%252Cq_auto%252Cw_880%2Fhttps%3A%2F%2Fblog.openreplay.com%2Fstatic%2Fe6b18eda7a327511296a2f27692f9c70%2Fe9957%2Fnewsletter.png&valid=true)
