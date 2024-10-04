@@ -1,0 +1,79 @@
+---
+title: Ohook Activation，不用KMS永久激活Office产品
+description: office,ohook,kms,activation
+date: "2024-10-4"
+published: true
+repository: fjyw7799/homepage
+---
+
+Ohook Activation，不用KMS永久激活Office产品
+==================================
+
+[www.isharepc.com](https://www.isharepc.com/40281.html)昵称
+
+众所周知，Office激活工具一般主要通过KMS命令，而Windows可通过数字权利永久激活。
+
+KMS，180天循环一次，可永久激活，但需要添加续期计划或手动执行，大家喜闻乐见必然是一劳永逸的方法。
+
+[![](https://cubox.pro/c/filters:no_upscale()?imageUrl=https%3A%2F%2Fimg.isharepc.com%2Fwp-content%2Fuploads%2F2023%2F09%2FOhookbanner.png&valid=true)](https://img.isharepc.com/wp-content/uploads/2023/09/Ohookbanner.png)
+
+**Ohook Activation，永久激活Office产品**
+---------------------------------
+
+ohook是Github上的一个开源项目，通用Office hook挂钩解锁Office全部功能，可永久离线激活，简单高效。
+
+主要特性：
+
+* 支持Office 2013-2021/Office 365
+* 解锁Office全部功能（除联网功能）
+* 离线激活
+* **不支持Windows 7**
+
+首先，office主要是通过一个sppc.dll检测产品激活状态，sppc.dll文件位于C:\\Windows\\System32中，它包含了一些函数和过程，可以辅助实现Windows操作系统的授权和激活管理，主要用于验证Windows操作系统的授权状态。
+
+ohook项目提供了一个修改过的sppc.dll文件，我们只需将它放在Office的目录中，通过mklink命令做一个硬链接，之后随便使用密钥激活即可。
+
+**具体步骤**
+
+阿刚下面以Office 21为例
+
+1，将下载的sppc32.dll、sppc64.dll（根据你的系统位数）改名为sppc.dll，将它复制到Office路径中。
+
+具体路径：C:\\Program Files\\Microsoft Office\\root\\vfs\\System  
+[![](https://cubox.pro/c/filters:no_upscale()?imageUrl=https%3A%2F%2Fimg.isharepc.com%2Fwp-content%2Fuploads%2F2023%2F09%2Fofficeohookactivation-1.png&valid=true)](https://img.isharepc.com/wp-content/uploads/2023/09/officeohookactivation-1.png)  
+2，右键管理员身份运行cmd，输入下面两个命令：
+
+mklink "%ProgramFiles%\\Microsoft Office\\root\\vfs\\System\\sppcs.dll" "%windir%\\System32\\sppc.dll
+
+```
+slmgr -ipk VK7JG-NPHTM-C97JM-9MPGT-3V66T
+```
+
+[![](https://cubox.pro/c/filters:no_upscale()?imageUrl=https%3A%2F%2Fimg.isharepc.com%2Fwp-content%2Fuploads%2F2023%2F09%2Fofficeohookactivation-2.png&valid=true)](https://img.isharepc.com/wp-content/uploads/2023/09/officeohookactivation-2.png)
+
+3，编辑hosts文件加入规则禁止验证
+
+```
+0.0.0.0 ols.officeapps.live.com
+```
+
+4，完成了
+
+5，如果你不喜欢手动执行，这边还有个cmd脚本，直接双击运行，输入数字1即可自动完成并激活。
+
+[![](https://cubox.pro/c/filters:no_upscale()?imageUrl=https%3A%2F%2Fimg.isharepc.com%2Fwp-content%2Fuploads%2F2023%2F09%2Fofficeohookactivation-4.png&valid=true)](https://img.isharepc.com/wp-content/uploads/2023/09/officeohookactivation-4.png) [![](https://cubox.pro/c/filters:no_upscale()?imageUrl=https%3A%2F%2Fimg.isharepc.com%2Fwp-content%2Fuploads%2F2023%2F09%2Fofficeohookactivation-5.png&valid=true)](https://img.isharepc.com/wp-content/uploads/2023/09/officeohookactivation-5.png)
+
+**关于激活：**
+
+打开软件后显示产品已激活，它的功能与正版是相同的，已全部解锁，当然它不能使用云功能，比如Microsoft 365里的Onedrive 1TB空间就不用想了。
+
+另外，使用cmd命令查询Office激活状态依然显示未激活，这个无需理会，实际已经PJ完成。
+
+[![](https://cubox.pro/c/filters:no_upscale()?imageUrl=https%3A%2F%2Fimg.isharepc.com%2Fwp-content%2Fuploads%2F2023%2F09%2Fofficeohookactivation-3.png&valid=true)](https://img.isharepc.com/wp-content/uploads/2023/09/officeohookactivation-3.png)
+
+### 写在最后
+
+
+在知己知彼大佬那边看到了这个ohook项目，迫不及待的下载尝试，的确可以一劳永逸的激活Office，至此Office除了正版外、KMS激活之外，终于有了永久的激活方式。
+
+大家赶紧下载体验吧
