@@ -11,8 +11,13 @@ export const metadata: Metadata = siteData("导航 | cater");
 
 const links = [
   {
-    title: "ChatGPT",
-    url: "https://chat.851158.xyz",
+    title: "速查表",
+    url: "https://book.rmb.run",
+    icon: "",
+  },
+  {
+    title: "熔火STUDIO 核弹级新手保姆发电教程",
+    url: "https://shimo.im/docs/L9kBBNa8MLFDKokK/read",
     icon: "",
   },
 ];
