@@ -169,10 +169,14 @@ export const parseFirefoxBookmarksJson = (jsonText: string): BookmarkGroup[] => 
 
   walkFirefoxBookmarks(parsed, [], store);
 
-  return [...store.entries()].map(([folder, links]) => ({
-    folder,
-    links,
-  }));
+  const groups: BookmarkGroup[] = [];
+  store.forEach((links, folder) => {
+    groups.push({
+      folder,
+      links,
+    });
+  });
+  return groups;
 };
 
 export const parseBookmarksHtml = (html: string): BookmarkGroup[] => {
@@ -181,8 +185,8 @@ export const parseBookmarksHtml = (html: string): BookmarkGroup[] => {
   let pendingFolder: string | null = null;
 
   const tokenPattern = /<H3\b[^>]*>[\s\S]*?<\/H3>|<\/DL>|<DL\b[^>]*>|<A\b[^>]*>[\s\S]*?<\/A>/gi;
-
-  for (const matched of html.matchAll(tokenPattern)) {
+  let matched: RegExpExecArray | null;
+  while ((matched = tokenPattern.exec(html)) !== null) {
     const token = matched[0];
 
     if (/^<H3\b/i.test(token)) {
@@ -238,10 +242,14 @@ export const parseBookmarksHtml = (html: string): BookmarkGroup[] => {
     addLinkToFolder(linksByFolder, folder, record);
   }
 
-  return [...linksByFolder.entries()].map(([folder, links]) => ({
-    folder,
-    links,
-  }));
+  const groups: BookmarkGroup[] = [];
+  linksByFolder.forEach((links, folder) => {
+    groups.push({
+      folder,
+      links,
+    });
+  });
+  return groups;
 };
 
 export const getBookmarkGroups = (): BookmarkGroup[] => {
