@@ -1,0 +1,80 @@
+---
+title: 文本生成:text-generation-webui安装部署及使用
+description: text-generation-webui,安装部署及使用
+date: "2026-2-24"
+published: true
+repository: cater923/homepage
+---
+
+# 文本生成:text-generation-webui安装部署及使用
+
+## **推荐常用好使的推理和部署方式（软件）：**
+
+## **llama.cpp 有丰富的量化选项和高效的本地推理**
+
+## **Transformers 原生的transformers推理接口**
+
+## **text-generation-webui 前端web UI 界面部署**
+
+![](https://cubox.pro/c/filters:no_upscale()?imageUrl=https%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F4aa545dccf7de8d4a93c2b2b8e3265ac0a26d216.png)
+
+**这里主要讲解text-generation-webui的安装部署使用**
+
+    git clone https://github.com/oobabooga/text-generation-webui.git
+
+下载到本地有充足空间的位置
+![](https://cubox.pro/c/filters:no_upscale()?imageUrl=https%3A%2F%2Fi0.hdslb.com%2Fbfs%2Fnew_dyn%2Fwatermark%2F7d1e7c78ac656d43f0ed8e9d51cd79822144545387.jpg%401256w_1242h_!web-article-pic.avif) text-generation-webui目录结构
+
+<br />
+
+![](https://cubox.pro/c/filters:no_upscale()?imageUrl=https%3A%2F%2Fi0.hdslb.com%2Fbfs%2Fnew_dyn%2Fwatermark%2F028a392f2a8148d48431bb1a493f75582144545387.jpg%401256w_266h_!web-article-pic.avif) ![](https://cubox.pro/c/filters:no_upscale()?imageUrl=https%3A%2F%2Fi0.hdslb.com%2Fbfs%2Fnew_dyn%2Fwatermark%2Fd2a7eccbdb9c4b720d87a0ff1c51aaa82144545387.jpg%401256w_712h_!web-article-pic.avif) 网络错误导致无法继续   
+
+网络原因多试几次，建议修改condarc，配置国内镜像源。
+
+又或者想方设法搞通网络，懂得都懂
+![](https://cubox.pro/c/filters:no_upscale()?imageUrl=https%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F6d6a09f0d1e3963c3538e8dadadff3622144545387.jpg%401256w_676h_!web-article-pic.avif) ![](https://cubox.pro/c/filters:no_upscale()?imageUrl=https%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2Fa7367df2b85370d59452dab7882dab412144545387.jpg%401256w_1176h_!web-article-pic.avif)
+
+网络通畅的话，继续安装，到下面这一步，按照提示操作
+![](https://cubox.pro/c/filters:no_upscale()?imageUrl=https%3A%2F%2Fi0.hdslb.com%2Fbfs%2Fnew_dyn%2Fwatermark%2F94a74be9fc6d820e8c96b9128c5da40a2144545387.jpg%401256w_1808h_!web-article-pic.avif) ![](https://cubox.pro/c/filters:no_upscale()?imageUrl=https%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F8acff756e8b2c1802300373748809b9e2144545387.jpg%401256w_192h_!web-article-pic.avif) ![](https://cubox.pro/c/filters:no_upscale()?imageUrl=https%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F35c7b71a86d85d87a88b13225eb1b2272144545387.jpg%401256w_612h_!web-article-pic.avif)
+
+**ModuleNotFoundError: No module named 'accelerate'**
+![](https://cubox.pro/c/filters:no_upscale()?imageUrl=https%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F153e4bdd25a41ff2b3fded84baf8ac822144545387.jpg%401256w_334h_!web-article-pic.avif)
+
+**ModuleNotFoundError: No module named 'gradio'**
+![](https://cubox.pro/c/filters:no_upscale()?imageUrl=https%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F504cb9b5d5738123241d88930e5b82d32144545387.jpg%401256w_1122h_!web-article-pic.avif)
+
+**ModuleNotFoundError: No module named 'markdown'**
+![](https://cubox.pro/c/filters:no_upscale()?imageUrl=https%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2Fd484abfe1d1d4fcaf2470a916e6ed21b2144545387.jpg%401256w_1454h_!web-article-pic.avif)
+
+**ModuleNotFoundError: No module named 'transformers'**
+![](https://cubox.pro/c/filters:no_upscale()?imageUrl=https%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2Fd1e5eae9d2819a5eac7360b1cdebf2ac2144545387.jpg%401256w_448h_!web-article-pic.avif)
+
+**ModuleNotFoundError: No module named 'numba'**
+![](https://cubox.pro/c/filters:no_upscale()?imageUrl=https%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F40cf4f135b6b542bed472bea46833b722144545387.jpg%401256w_420h_!web-article-pic.avif)
+
+**ModuleNotFoundError: No module named 'datasets'**
+![](https://cubox.pro/c/filters:no_upscale()?imageUrl=https%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F410705063f284db5d2c24346b7ef85632144545387.jpg%401256w_330h_!web-article-pic.avif) ModuleNotFoundError: No module named 'datasets'
+
+**ModuleNotFoundError: No module named 'peft'**
+![](https://cubox.pro/c/filters:no_upscale()?imageUrl=https%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F1a478920f1b15eea585c63a21183f69e2144545387.jpg%401256w_332h_!web-article-pic.avif) ![](https://cubox.pro/c/filters:no_upscale()?imageUrl=https%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F6dd758f02564661e101cdba529dc1d422144545387.jpg%401256w_266h_!web-article-pic.avif) **可以在浏览器打开http://127.0.0.1:7860了**
+![](https://cubox.pro/c/filters:no_upscale()?imageUrl=https%3A%2F%2Fi0.hdslb.com%2Fbfs%2Fnew_dyn%2Fwatermark%2Fcc302c7e2bac87af717f437dbde6602d2144545387.jpg%401256w_590h_!web-article-pic.avif)
+
+Model这个界面可以填写模型文件名，直接下载模型，但基本上会中断无法成功下载，因为文件大，网络不畅。因此，建议手动下载大模型，可以去魔搭社区。可以下载原始文件（文件多而且比较大，llama3-8b-instruct版本合计15GB，但是运行顺畅，容易配置GPU加速）也可以下载gguf文件（文件小但运行慢，可能是本人没配置好GPU加速的原因，又或者是安装的llama_cpp_python版本不适合）放到models文件夹下面。如果GPU大于8G，推荐使用原始文件。
+![](https://cubox.pro/c/filters:no_upscale()?imageUrl=https%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F89a415f76acb9357ab3e0e9f7a8ece0a2144545387.jpg%401256w_364h_!web-article-pic.avif)
+
+在Model选项选择要使用的模型文件即可，Model loader一般是自动选择。gpu和cpu的使用内存可以自行配置。然后Load就可以了。
+![](https://cubox.pro/c/filters:no_upscale()?imageUrl=https%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2Fba2a43d7f7865ff0196147df7afbb54c2144545387.png%401256w_1032h_!web-article-pic.avif)
+
+模型加载成功的命令行窗口信息
+![](https://cubox.pro/c/filters:no_upscale()?imageUrl=https%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2Fec307ae8cdcfaf4e67c4215a747c78c02144545387.jpg%401256w_860h_!web-article-pic.avif)
+
+现在就可以愉快地使用了  
+![](https://cubox.pro/c/filters:no_upscale()?imageUrl=https%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F2fb73566261b9cf48b30b657b08962b02144545387.png%401256w_1190h_!web-article-pic.avif)
+
+可能遇到的问题，除了上面缺少module的报错，加载gguf模型也可能报错：
+
+**AttributeError: 'NoneType' object has no attribute 'Llama'**
+![](https://cubox.pro/c/filters:no_upscale()?imageUrl=https%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F97e8e6be21ba695c148a0971f9acfbc42144545387.jpg%401256w_1044h_!web-article-pic.avif)
+
+解决办法也很简单
+![](https://cubox.pro/c/filters:no_upscale()?imageUrl=https%3A%2F%2Fi0.hdslb.com%2Fbfs%2Farticle%2F9bb346b287935499c4ece0a28866ec972144545387.jpg%401256w_1312h_!web-article-pic.avif)
