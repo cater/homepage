@@ -1,7 +1,8 @@
 "use client";
-import { ArrowLeft, Eye, Github, Twitter } from "lucide-react";
+import { ArrowLeft, Eye, Github, Heart, Twitter } from "lucide-react";
 import Link from "next/link";
 import React, { useEffect, useRef, useState } from "react";
+import { LikeButton } from "./like";
 
 type Props = {
   project: {
@@ -9,6 +10,7 @@ type Props = {
     title: string;
     description: string;
     repository?: string;
+    slug: string;
   };
 
   views: number;
@@ -51,7 +53,8 @@ export const Header: React.FC<Props> = ({ project, views }) => {
             : "bg-white/10  border-zinc-200 lg:border-transparent"
         }`}>
         <div className="container flex flex-row-reverse items-center justify-between p-6 mx-auto">
-          <div className="flex justify-between gap-8">
+          <div className="flex justify-between gap-4">
+            <LikeButton slug={project.slug} />
             <span
               title="View counter for this page"
               className={`duration-200 hover:font-medium flex items-center gap-1 ${

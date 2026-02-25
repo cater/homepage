@@ -24,6 +24,15 @@ export default async function ProjectsPage() {
     return acc;
   }, {} as Record<string, number>);
 
+  const likes = (
+    await redis.mget<number[]>(
+      ...allArticles.map((p) => ["likes", "articles", p.slug].join(":"))
+    )
+  ).reduce((acc, v, i) => {
+    acc[allArticles[i].slug] = v ?? 0;
+    return acc;
+  }, {} as Record<string, number>);
+
   const sorted = allArticles
     .filter((p) => p.published)
     .sort(
@@ -57,6 +66,7 @@ export default async function ProjectsPage() {
                   <ArticleWarpper
                     article={project}
                     views={views[project.slug] ?? 0}
+                    likes={likes[project.slug] ?? 0}
                   />
                 </Card>
               ))}
@@ -69,6 +79,7 @@ export default async function ProjectsPage() {
                   <ArticleWarpper
                     article={project}
                     views={views[project.slug] ?? 0}
+                    likes={likes[project.slug] ?? 0}
                   />
                 </Card>
               ))}
@@ -81,6 +92,7 @@ export default async function ProjectsPage() {
                   <ArticleWarpper
                     article={project}
                     views={views[project.slug] ?? 0}
+                    likes={likes[project.slug] ?? 0}
                   />
                 </Card>
               ))}
